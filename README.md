@@ -21,3 +21,6 @@ docker logs -f demo-airflow-docker-airflow-webserver_1
 
 ## process console 진입
 docker exec -u root -it demo-airflow-docker-airflow-webserver-1 bash
+
+## Airflow 아키텍처
+![스크린샷 2022-07-15 오전 8 49 17](https://user-images.githubusercontent.com/20849970/179121374-b69bffc7-ef84-476d-8024-ad9603040849.png)
