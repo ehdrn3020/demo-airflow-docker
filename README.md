@@ -2,6 +2,7 @@
 ## 설치
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.5.2/docker-compose.yaml'
 
+
 ## 컨테이너와 마운팅 될 디렉토리 생성
 mkdir -p ./dags ./logs ./plugins
 
@@ -35,7 +36,7 @@ docker exec -u root -it demo-airflow-docker-airflow-webserver-1 bash
 
 
 # 초기화
-## docker-compose로 실행 했던 서비스( 컨테이너 / 볼륨 / DB data / 이미지) 초기화
+## docker-compose로 실행 했던 서비스 초기화 (컨테이너/볼륨/DBdata/이미지)
 docker-compose down --volumes --rmi all
 or docker-compose -f docker-compose.yaml down --volumes --rmi all
 
