@@ -1,4 +1,4 @@
-# 사전설치 (해당 단계를 수행하지 않아도 됨)
+# 사전설치
 ### 설치
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.5.2/docker-compose.yaml'
 
@@ -15,9 +15,6 @@ echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .env
 ### airflow 초기화 
 docker-compose -f docker-compose.yaml up airflow-init
 
-### airflow web ui id/pwd
-airflow / airflow 
-
 ### airflow 백그라운드 실행
 docker-compose -f docker-compose.yaml up -d
 
@@ -29,6 +26,9 @@ docker logs -f demo-airflow-docker-airflow-webserver_1
 
 ### process console 진입
 docker exec -u root -it demo-airflow-docker-airflow-webserver-1 bash
+
+### airflow web ui id/pwd
+airflow / airflow 
 
 
 # 초기화
