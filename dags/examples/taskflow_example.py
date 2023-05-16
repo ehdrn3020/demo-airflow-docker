@@ -1,4 +1,5 @@
-# https://airflow.apache.org/docs/apache-airflow/stable/tutorial/taskflow.html#
+# https://airflow.apache.org/docs/apache-airflow/stable/tutorial/taskflow.html
+
 import json
 import pendulum
 from airflow.decorators import dag, task
