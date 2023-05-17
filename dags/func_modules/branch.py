@@ -18,7 +18,7 @@ def default_args():
     tags=["function"]
 )
 
-def check_request_exection():
+def branch_request_status():
     @task()
     def set_date(**kwargs):
         work_date = kwargs["logical_date"].in_timezone('Asia/Seoul').strftime('%Y%m%d')
@@ -57,4 +57,4 @@ def check_request_exection():
     get_status_task = get_status(set_date_task)
     condition(get_status_task) >> [success_status_task(), failed_status_task()]
 
-check_request_exection()
+branch_request_status()

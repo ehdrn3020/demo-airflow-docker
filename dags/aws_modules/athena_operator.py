@@ -19,6 +19,7 @@ dag = DAG(
 
 def set_work_date(service_name, execution_date, **context):
     context['ti'].xcom_push(key=f'work_date', value=execution_date)
+    context['ti'].xcom_push(key=f'service_name', value=service_name)
     print(f"service_name:{service_name}, execution_date:{execution_date}")
 
 def check_work_date(dag, service_name):
@@ -29,7 +30,7 @@ def check_work_date(dag, service_name):
             "service_name": service_name,
             "execution_date":"{{execution_date.in_timezone('Asia/Seoul').strftime('%Y%m%d')}}"
         },
-        queue='research',
+        queue='name_queue',
         dag=dag
     )
     return check_log_task
@@ -40,10 +41,32 @@ select_table_task = AthenaOperator(
     database=aws_info['db'],
     workgroup='primary',
     aws_conn_id='aws_default',
-    queue='research',
+    queue='name_queue',
+    output_location=aws_info['output_location'],
+    dag=dag
+)
+
+drop_partition_task = AthenaOperator(
+    task_id=f'drop_partition',
+    query=f"ALTER TABLE {aws_info['table']} DROP IF EXISTS PARTITION (dt='{{{{ti.xcom_pull(key=\"work_dt\")}}}}', service='{{{{ti.xcom_pull(key=\"service_name\")}}}}')",
+    database=aws_info['db'],
+    workgroup='primary',
+    aws_conn_id='aws_default',
+    queue='name_queue',
+    output_location=aws_info['output_location'],
+    dag=dag
+)
+
+add_partition_task = AthenaOperator(
+    task_id=f'add_partition',
+    query=f"ALTER TABLE {aws_info['table']} ADD IF NOT EXISTS PARTITION (dt='{{{{ti.xcom_pull(key=\"work_dt\")}}}}', service='{{{{ti.xcom_pull(key=\"service_name\")}}}}')",
+    database=aws_info['db'],
+    workgroup='primary',
+    aws_conn_id='aws_default',
+    queue='name_queue',
     output_location=aws_info['output_location'],
     dag=dag
 )
 
 check_work_date_task = check_work_date(dag, 'athena')
-check_work_date_task >> select_table_task
+check_work_date_task >> select_table_task >> drop_partition_task >> add_partition_task

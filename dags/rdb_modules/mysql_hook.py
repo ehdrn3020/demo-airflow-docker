@@ -48,7 +48,7 @@ mysql_fetch_package_task = PythonOperator(
         "query":"SELECT package_id FROM package_list_order WHERE withdrawl = 'n'",
         "action":"select"
     },
-    queue='research',
+    queue='name_queue',
     dag=dag
 )
 
@@ -59,7 +59,7 @@ mysql_update_package_task = PythonOperator(
         "query":"UPDATE package_list_order SET paid = 'y' WHERE package_id = '{}'",
         "action":"update"
     },
-    queue='research',
+    queue='name_queue',
     dag=dag
 )
 

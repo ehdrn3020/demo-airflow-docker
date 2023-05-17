@@ -8,10 +8,10 @@ from airflow.decorators import dag, task
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["taskflow"]
+    tags=["example"]
 )
 
-def tutorial_taskflow_api():
+def taskflow_api():
     @task()
     def extract():
         data_string = '{"1001": 301.27, "1002": 433.21, "1003": 502.22}'
@@ -35,4 +35,4 @@ def tutorial_taskflow_api():
     order_summary = transform(order_data)
     load(order_summary['total_order_value'])
 
-tutorial_taskflow_api()
+taskflow_api()

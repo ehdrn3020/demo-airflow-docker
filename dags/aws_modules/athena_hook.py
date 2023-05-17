@@ -18,12 +18,12 @@ dag = DAG(
 )
 
 def list_return():
-    return ['hellw', 'name', 'world']
+    return ['hellow', 'name', 'world']
 
 fetch_package_task = PythonOperator(
     task_id='fetch_package',
     python_callable=list_return,
-    queue='research',
+    queue='name_queue',
     dag=dag
 )
 
@@ -62,7 +62,7 @@ athena_fetch_package_task = PythonOperator(
         "output_location":aws_info['output_location']
     },
     provide_context=True,
-    queue='research',
+    queue='name_queue',
     dag=dag
 )
 

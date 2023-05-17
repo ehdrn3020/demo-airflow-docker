@@ -30,7 +30,7 @@ def check_work_date(dag, service_name):
             "service_name": service_name,
             "execution_date":"{{execution_date.in_timezone('Asia/Seoul').strftime('%Y%m%d')}}"
         },
-        queue='research',
+        queue='name_queue',
         dag=dag
     )
     return check_log_task
@@ -39,7 +39,7 @@ glue_daily_job_task = GlueJobOperator(
     task_id='glue_daily_job',
     job_name=glue_job,
     aws_conn_id='aws_default',
-    queue='research',
+    queue='name_queue',
     script_args={
         '--target_dt':"{{ ti.xcom_pull(key='work_date') }}"
     },
