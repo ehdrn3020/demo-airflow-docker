@@ -8,7 +8,7 @@ from airflow.decorators import dag, task
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["function"]
+    tags=["example"]
 )
 
 def taskflow_api():
